@@ -109,17 +109,6 @@ class Server extends Component implements BootstrapInterface
     {
         $this->socket = $this->createWorker();
         $this->socket->onWorkerStart = function () {
-            if ($this->exchangePort) {
-                $this->bind = new AsyncTcpConnection("tcp://0.0.0.0:$this->exchangePort");
-                $this->bind->onMessage = function ($connection, $message) {
-                    $this->trigger(
-                        static::EVENT_BIND_MESSAGE,
-                        new ConnectionMessageEvent(['connection' => $connection, 'message' => $message])
-                    );
-                    $this->handleBindMessage($connection, $message);
-                };
-                $this->bind->connect();
-            }
             $this->trigger(static::EVENT_SOCKET_OPEN);
             try {
                 $this->handleStart();
