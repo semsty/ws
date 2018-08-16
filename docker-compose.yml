@@ -1,0 +1,10 @@
+version: "2"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: tests/app/docker/php/7.2/Dockerfile
+    command: ["/code/tests/yii", "socket-server/command", "start"]
+    volumes:
+      - .:/code
+      - ./tests/app/runtime/composer:/root/.composer
